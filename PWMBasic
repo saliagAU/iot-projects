@@ -1,0 +1,9 @@
+//Variables
+int pwmVal = 100; /*PWM range is 0 - 255  */
+
+void setup() {
+  analogWrite(6, pwmVal); /* the 6 is the pin on the Arduino the LED is connected to, pwmVal isthe v ariable containing the value for the PWM duration. analogWrite tells 
+the Arduino this is a PWM pin.*/
+}
+void loop() {
+}
