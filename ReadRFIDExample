@@ -1,0 +1,44 @@
+//(C) Tyson Popynick for Aus Electronics Direct 2016
+/*
+Pin connections for the RFID Module:
+VCC (Voltage +)
+RST (RESET)
+GND (Voltage -)
+MISO (Master input - Slave Output)
+MOSI (Master Output - Slave Input)
+SCK (Serial Clock)
+NSS (Negative Slave Select)
+IRQ (Interrupt ReQuest)
+RFID - Arduino
+VCC - 3.3V
+RST - PIN 9
+GND - GND
+MISO - PIN 12
+MOSI - PIN 11
+SCK - PIN 13
+NSS - PIN 10
+IRQ - NO CONNECTION
+*/
+#include <SPI.h> //Tell the Arduino it will use the SPI interface
+#include <MFRC522.h> //Tell the Arduino it will use the MFRC522 protocol
+MFRC522 RFIDModule(10, 9); //Create the reader instance
+void setup() {
+ Serial.begin(9600); // Init serial to PC
+ SPI.begin(); // Init serial to reader
+ RFIDModule.PCD_Init(); //Init reader interface
+ Serial.println("Scan Card or FOB to read data...");
+}
+void loop() {
+ //This instruction tells the Arduino to keep scanning until it sees a new card or fob
+ if ( ! RFIDModule.PICC_IsNewCardPresent()) {
+ return;
+ }
+ //This instruction tells the Arduino to select and read the card or fob once it finds one
+ if ( ! RFIDModule.PICC_ReadCardSerial()) {
+ return;
+  }
+ //Finally, if a card or fob is found, this instruction dumps the data over serial to the PC
+ RFIDModule.PICC_DumpToSerial(&(RFIDModule.uid));
+}
+//Copy to here.
+//Tyson Popynick - Aus Electronics Direct. - Prot3us1@gmail.com
